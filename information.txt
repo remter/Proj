@@ -1,0 +1,24 @@
+Inventory management system
+
+User scans item into system
+User checks out item 
+User returns an item
+Admin can create Users 
+Status of inventory on a website
+Admin can run reports (export audit log as txt)
+
+
+Optional: User login system
+
+
+Implementation
+
+If user modifies inv (check in/ check out):
+Check if item is checked out
+update the audit log
+allows the action to be completed
+
+If Admin wants to add a new user:
+check that name is unique
+user gets inserted into the user table
+

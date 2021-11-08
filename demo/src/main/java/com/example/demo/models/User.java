@@ -1,5 +1,10 @@
 package com.example.demo.models;
 
+import java.util.Objects;
+
+import javax.persistence.criteria.Order;
+
+
 public class User {
     private String name;
     private String userName;
@@ -15,7 +20,7 @@ public class User {
         this.id = id;
         this.role = role;
     }
-
+    //Function which get
     public String getName() {
         return this.name;
     }
@@ -28,16 +33,33 @@ public class User {
     public Roles getRole(){
         return this.role;
     }
-    
-    public String setName(String name) {
+
+    //Function which set
+    public void setName(String name) {
         this.name = name;
     }
-    public int setId(int id){
+    public void setId(int id){
         this.id = id;
     }
-    public Roles setRole(Role role){
+    public void setRole(Roles role){
         this.role = role;
     }
 
-
+    @Override
+    public int hashCode(){
+        return Objects.hash(this.id);
+    }
+    @Override
+    public boolean equals(Object o){
+        if (this == o){
+            return true;
+        }
+        if(!(o instanceof User)){
+            return false;
+        }
+        User order = (User) o;
+        return Objects.equals(this.id, order.id) && Objects.equals(this.userName, order.userName);
+        
+        
+    }
 }

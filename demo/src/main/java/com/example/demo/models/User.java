@@ -44,6 +44,16 @@ public class User {
     public void setRole(Roles role){
         this.role = role;
     }
+    public String toString(){ 
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: " + name + "/n")
+            .append("Username: " + userName + "/n")
+            .append("ID: " + id + "/n")
+            .append("Role: " + role + "/n");
+        return sb.toString();
+            
+    }
+
 
     @Override
     public int hashCode(){

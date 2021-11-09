@@ -67,6 +67,22 @@ public class item {
     public void setId(int id){
         this.id = id;
     }
+
+    //To string
+    public String toString(){ 
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: " + name + "/n")
+            .append("SN: " + serialNum + "/n")
+            .append("Type: " + type + "/n")
+            .append("Model: " + model + "/n")
+            .append("Maker: " + maker + "/n")
+            .append("Description: " + description + "/n")
+            .append("Owner: " + owner + "/n")
+            .append("ID: " + id + "/n");
+        return sb.toString();
+            
+    }
+
     @Override
     public int hashCode(){
         return Objects.hash(this.id, this.serialNum, this.description  );

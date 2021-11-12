@@ -11,21 +11,21 @@ public class item {
     private String model;
     private String maker;
     private String description; 
-    private User owner;
+    private int ownerid;
     private int id;
 
 
     item(){
 
     }
-    item(String name, String serialNum, itemType type, String model, String maker, String description, User origOwner, int id ){
+    item(String name, String serialNum, itemType type, String model, String maker, String description, int ownerid, int id ){
         this.name = name;
         this.serialNum = serialNum;
         this.type = type;
         this.model = model;
         this.maker = maker;
         this.description = description;
-        this.owner = origOwner;
+        this.ownerid = ownerid;
         this.id = id;
         
     }
@@ -48,25 +48,54 @@ public class item {
     public String getDesc(){
         return this.description;
     }
-    public User getOrigOwner(){
-        return this.owner;
+    public int getOwnerId(){
+        return this.ownerid;
     }
     public int getId(){
         return this.id;
     }
     //Function which change
-    public void setDesc(String desc){
-        this.description = desc;
-    }
-    public void setOwner(User own){
-        this.owner = own;
-    }
+
+
     public void setName(String nam){
         this.name = nam;
     }
     public void setId(int id){
         this.id = id;
     }
+    public void setSerialNum(String serialNum){
+        this.serialNum = serialNum;
+    }
+    public void setType(itemType type){
+        this.type = type;
+    }
+    public void setModel (String model){
+        this.model = model;
+    }
+    public void setMaker (String maker){
+        this.maker = maker;
+    }
+    public void setDescription(String desc){
+        this.description = desc;
+    }
+    public void setOwnerId(int id){
+        this.ownerid = id;
+    }
+    //To string
+    public String toString(){ 
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: " + name + "/n")
+            .append("SN: " + serialNum + "/n")
+            .append("Type: " + type + "/n")
+            .append("Model: " + model + "/n")
+            .append("Maker: " + maker + "/n")
+            .append("Description: " + description + "/n")
+            .append("Owner: " + ownerid + "/n")
+            .append("ID: " + id + "/n");
+        return sb.toString();
+            
+    }
+
     @Override
     public int hashCode(){
         return Objects.hash(this.id, this.serialNum, this.description  );

@@ -3,4 +3,4 @@ CREATE TABLE if not exists `inventory` (`id` int(10)  NOT NULL AUTO_INCREMENT, `
 
 Drop Table if exists `users`;
 
-CREATE TABLE if not exists `users` (`id` int(10)  NOT Null AUTO_INCREMENT,`name` varchar(45) Not Null,`username` varchar(45) Not Null,`role` ENUM('owner', 'manager', 'engineer', 'admin', 'user') default 'user' Not Null, `created_at` DATETIME NOT NULL default NOW(),`last_updated` DATETIME NOT NULL default NOW() ON UPDATE NOW(),primary key (`id`)) AUTO_INCREMENT = 1;
+CREATE TABLE if not exists `users` (`id` int(10)  NOT Null AUTO_INCREMENT,`name` varchar(45) Not Null,`username`  varchar(45) Not Null unique,`role` ENUM('owner', 'manager', 'engineer', 'admin', 'user') default 'user' Not Null, `created_at` DATETIME NOT NULL default NOW(),`last_updated` DATETIME NOT NULL default NOW() ON UPDATE NOW(),primary key (`id`)) AUTO_INCREMENT = 1;

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,12 +39,24 @@ public class usersController {
         
     }
     @PostMapping("/user")
-
-
     ResponseEntity addNewUser(@RequestBody UserInput nUser) {
-        userService.addUser(nUser);
+        try{userService.addUser(nUser);
         return ResponseEntity.ok().build();
-      }
+        }
+        catch(ApiErrors e){
+            return  ResponseEntity.status( HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
     
+    @DeleteMapping("/user/{id}")
+    ResponseEntity deleteUser(@PathVariable int id){
+        try{
+            userService.deleteUser(id);
+            return ResponseEntity.ok().build();
+        }
+        catch(ApiErrors e){
+            return ResponseEntity.status( HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
 }

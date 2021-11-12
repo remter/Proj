@@ -1,4 +1,5 @@
 package com.example.demo.dao;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -34,13 +35,13 @@ public class userDao {
     public void addUser(UserInput newUser){
         
         try {
-            String sql = "Insert INTO users (name,username,role)" + "Values(?,?,?)";
+            String sql = "Insert INTO users (name,userNsame,role)" + "Values(?,?,?)";
             jdbcTemp.update(sql, new Object[]{newUser.getName(), newUser.getUserName(), newUser.getRole().toString() } );
     } catch (DataIntegrityViolationException e){
         throw new ApiErrors ("User: "+ newUser.getName() + " cannot be added" );
 
     } catch (NullPointerException e){
-        throw new ApiErrors ("No role Assigned" );
+        throw new ApiErrors ("Some values are not assigned" );
     }
     }
     public void deleteUser (int id){
@@ -48,6 +49,20 @@ public class userDao {
         var a = jdbcTemp.update(sql, id );
         if(a == 0){
             throw new ApiErrors ("No user found at id:" + id);
+        }
+    }
+    public void updateUser (int id, UserInput a){
+        String sql = "UPDATE users SET name = ?, username = ?, role = ? where id = ?";
+        
+        try {
+            var u =jdbcTemp.update(sql, a.getName(), a.getUserName(), a.getRole().toString(), id);
+            if(u == 0){
+                throw new ApiErrors("Id not found/updated");
+            }
+        }catch (NullPointerException e){
+            throw new ApiErrors ("Some values are not assigned" );
+        }catch (DataIntegrityViolationException e){
+            throw new ApiErrors ("Please check inputs" );
         }
     }
 }

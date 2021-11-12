@@ -5,9 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.models.User;
@@ -39,7 +41,7 @@ public class usersController {
         
     }
     @PostMapping("/user")
-    ResponseEntity addNewUser(@RequestBody UserInput nUser) {
+    ResponseEntity <?> addNewUser(@RequestBody UserInput nUser) {
         try{userService.addUser(nUser);
         return ResponseEntity.ok().build();
         }
@@ -49,7 +51,7 @@ public class usersController {
     }
     
     @DeleteMapping("/user/{id}")
-    ResponseEntity deleteUser(@PathVariable int id){
+    ResponseEntity <?> deleteUser(@PathVariable int id){
         try{
             userService.deleteUser(id);
             return ResponseEntity.ok().build();
@@ -59,4 +61,14 @@ public class usersController {
         }
     }
 
+    @PutMapping("/user/{id}")
+    ResponseEntity <?> addNewUser(@RequestBody UserInput nUser, @PathVariable int id) {
+        try{
+            userService.updateUser(id, nUser);
+        return ResponseEntity.ok().build();
+        }
+        catch(ApiErrors e){
+            return  ResponseEntity.status( HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

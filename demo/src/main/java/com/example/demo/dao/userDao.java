@@ -32,10 +32,20 @@ public class userDao {
             throw new ApiErrors ("No user found at id: " + id);
         }
     }
+
+    public User getUserByUn(String UN){
+        String sql = "SELECT * FROM users WHERE userName = ?";
+        try {
+            return jdbcTemp.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), UN );
+        } catch (EmptyResultDataAccessException e) {
+            //TODO: handle exception
+            throw new ApiErrors ("No user found with username: " + UN);
+        }
+    }
     public void addUser(UserInput newUser){
         
         try {
-            String sql = "Insert INTO users (name,userNsame,role)" + "Values(?,?,?)";
+            String sql = "Insert INTO users (name,userName,role) " + "Values(?,?,?)";
             jdbcTemp.update(sql, new Object[]{newUser.getName(), newUser.getUserName(), newUser.getRole().toString() } );
     } catch (DataIntegrityViolationException e){
         throw new ApiErrors ("User: "+ newUser.getName() + " cannot be added" );

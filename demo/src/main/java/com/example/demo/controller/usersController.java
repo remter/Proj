@@ -40,6 +40,18 @@ public class usersController {
         }
         
     }
+    @RequestMapping("/user/un/{UN}")
+    ResponseEntity <?> getUserByUN(@PathVariable String UN){
+        
+        try{
+        User usr = userService.getUserByUn(UN);
+        return new ResponseEntity <User> (usr, HttpStatus.OK);
+        }
+        catch(ApiErrors e){
+            return  ResponseEntity.status( HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        
+    }
     @PostMapping("/user")
     ResponseEntity <?> addNewUser(@RequestBody UserInput nUser) {
         try{userService.addUser(nUser);

@@ -22,14 +22,14 @@ import com.example.demo.dao.ItemDao;
 import com.example.demo.insert.ItemInput; 
 @RestController
 
-@CrossOrigin(origins = "http://localhost:3000")
+
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.210:3000"})
 
 
 public class itemsController {
 
     @Autowired
     ItemDao itemService;
-    @CrossOrigin(origins = "http://localhost:8080")
     @RequestMapping("/item")
         List<item>  getAllItems(){
             return itemService.getAllitems();

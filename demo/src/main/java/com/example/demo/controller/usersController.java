@@ -24,7 +24,7 @@ import java.io.*;
 import com.example.demo.error.ApiErrors;
 @RestController
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.210:3000"})
 
 public class usersController {
 

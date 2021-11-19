@@ -1,124 +1,84 @@
 import logo from './logo.svg';
 import React, {Component} from 'react';
-import {useTable} from 'react-table'
+import Table from './Table.js';
 
+import GetCommand from './Requests/GetCommand';
 
 import './App.css';
+var url_parm = "user";
+const columns = [
+  {
+    Header: 'Basic table of users',
+    columns:[
+      {
+        Header: 'ID',
+        accessor: 'id',
+      },
+      {
+        Header: 'Name',
+        accessor: 'name',
+      },
+      {
+        Header: 'Username',
+        accessor: 'userName',
+      },
+      {
+        Header: 'Current Role',
+        accessor: 'role',
+      }
 
-//Code gotten from react tables lib
-function Table({ columns, data }) {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({
-    columns,
-    data,
-  })
+    ]
+  }
+]
 
-  // Render the UI for your table
-  return (
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row)
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-              })}
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
-  )
-}
-var data = [];
-// function getData() {
-//   const url = "http://localhost:8080/user";
-//   var response =  fetch(url, {
-//     method :"GET",
-//     mode:'no-cors',
-//     headers:{
-//       "Content-Type": "text/plain"
-//     }
-//   })
-//   return response;
-
-  
 
 class App extends Component {
-  state = {
+  /*const updateData = async() => {
+  this.setState({ isLoading: true });
+  let data = [];
+  try {
+    data = GetCommand(url_param);
+    this.setState({ user: data });
+  } catch (e) {
+    // TODO: some error handling here
+  } finally {
+    this.setState({ isLoading: false });
+  }
+*/
+constructor(props) {
+  super(props);
+  this.state = {
     isLoading: true,
     user: []
   };
+}
+
+    async  update_data() {
+      this.setState({ isLoading: true });
+      let data = []
+      try{
+        data = await GetCommand(url_parm);
+        this.setState( {user: data });
+      }
+      catch (e){
+        console.log(e);
+      }
+    
+    }
+  
+
 
   async componentDidMount() {
-    const url = "http://localhost:8080/user"
-    const response = await fetch(url, {
-      method:"GET",
-      mode:'cors',
-      headers:{
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Headers" : '*' ,
-        'Access-Control-Allow-Origin' : '*'
-      }
-    });
-    console.log(response);
-    
-    const body = await response.json();
-    console.log(body)
-    this.setState({ user: body, isLoading: false });
+    await this.update_data();
+    this.setState({ isLoading: false });
   }
-   
   
-  
+
 
   render(){
     const {user, isLoading} = this.state;
-    // var data = []
-    // var data2 = getData();
-    console.log(user);
-    console.log("state: ", this.state );
 
-    const columns = [
-        {
-          Header: 'Basic table of users',
-          columns:[
-            {
-              Header: 'ID',
-              accessor: 'id',
-            },
-            {
-              Header: 'Name',
-              accessor: 'name',
-            },
-            {
-              Header: 'Username',
-              accessor: 'userName',
-            },
-            {
-              Header: 'Current Role',
-              accessor: 'role',
-            }
-  
-          ]
-        }
-      ]
-    
-  
+   
     // data = [{
     //   "name": "Bob barker",
     //   "userName": "bbar001",
@@ -132,20 +92,30 @@ class App extends Component {
     //   "role": "owner"
     // }
     // ]
+    // console.log(isLoading)
+    // console.log(user);
+    if (isLoading){
+      return  <div className="App"> Loading... </div>
+    }
+    else {
+      return (
 
-  return (
 
+        <div className="App">
+          
+          <header className="App-header">
+          <Table columns={columns} data={user} />
 
-    <div className="App">
-      
-      <header className="App-header">
-      <Table columns={columns} data={user} />
-
-      </header>
-    </div>
-  );
+          </header>
+        </div>
+      );
+    }
   }
+
+
 }
+
+  
 
 
 export default App;

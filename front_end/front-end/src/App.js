@@ -1,12 +1,11 @@
-import logo from './logo.svg';
+
 import React, {Component} from 'react';
 import Table from './Table.js';
-
-import GetCommand from './Requests/GetCommand';
+import httpCalls from './Requests/httpCalls';
 
 import './App.css';
-var url_parm = "user";
-const columns = [
+var url_parm = "";
+const columns_user = [
   {
     Header: 'Basic table of users',
     columns:[
@@ -25,6 +24,42 @@ const columns = [
       {
         Header: 'Current Role',
         accessor: 'role',
+      }
+
+    ]
+  }
+]
+const columns_inv = [
+  {
+    Header: 'Basic table of inventory',
+    columns:[
+      {
+        Header: 'ID',
+        accessor: 'id',
+      },
+      {
+        Header: 'Serial Number',
+        accessor: 'serialNum',
+      },
+      {
+        Header: 'Type of device',
+        accessor: 'type',
+      },
+      {
+        Header: 'Owner Id',
+        accessor: 'ownerId',
+      },
+      {
+        Header: 'Model',
+        accessor: 'model',
+      },
+      {
+        Header: 'Maker',
+        accessor: 'maker',
+      },
+      {
+        Header: 'Description',
+        accessor: 'description',
       }
 
     ]
@@ -49,15 +84,20 @@ constructor(props) {
   super(props);
   this.state = {
     isLoading: true,
-    user: []
+    user: [],
+    item: []
   };
 }
 
-    async  update_data() {
+    async  update_data_users() {
       this.setState({ isLoading: true });
-      let data = []
+      let data = [];
+      url_parm = "user";
+      
       try{
-        data = await GetCommand(url_parm);
+        //create a class with http calls
+        let cal = new httpCalls("http://localhost:8080/");
+        data = await cal.a_get(url_parm);
         this.setState( {user: data });
       }
       catch (e){
@@ -65,18 +105,36 @@ constructor(props) {
       }
     
     }
+    async  update_data_items() {
+      this.setState({ isLoading: true });
+      let data = [];
+      url_parm = "item";
+      
+      try{
+        //create a class with http calls
+        let cal = new httpCalls("http://localhost:8080/");
+        data = await cal.a_get(url_parm);
+        this.setState( {item: data });
+      }
+      catch (e){
+        console.log(e);
+      }
+    
+    }
+  
   
 
 
   async componentDidMount() {
-    await this.update_data();
+    await this.update_data_users();
+    await this.update_data_items();
     this.setState({ isLoading: false });
   }
   
 
 
   render(){
-    const {user, isLoading} = this.state;
+    const {user, item, isLoading} = this.state;
 
    
     // data = [{
@@ -104,7 +162,9 @@ constructor(props) {
         <div className="App">
           
           <header className="App-header">
-          <Table columns={columns} data={user} />
+          <Table columns={columns_user} data={user} />
+          <div> </div>
+          <Table columns={columns_inv} data={item} />
 
           </header>
         </div>

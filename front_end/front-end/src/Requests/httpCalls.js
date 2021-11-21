@@ -33,7 +33,7 @@ class httpCalls {
     }
     async a_get_ind(URL_parm, pVar){
         // f_url is used inside fetch to get response pVar is the index var
-        var f_url = server_url + URL_parm + pVar;
+        var f_url = server_url + URL_parm +"/"+ pVar;
         // ret is used as the response for the fetch
         var ret = "";
 

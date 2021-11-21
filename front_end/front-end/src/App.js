@@ -1,9 +1,12 @@
 
 import React, {Component} from 'react';
-import Table from './Table.js';
+import Table from './components/Table.js';
+import Tab from './components/Tab.js';
 import httpCalls from './Requests/httpCalls';
+import "./App.css"
+import TabNav from './components/TabNav.js';
 
-import './App.css';
+
 var url_parm = "";
 const columns_user = [
   {
@@ -80,14 +83,18 @@ class App extends Component {
     this.setState({ isLoading: false });
   }
 */
-constructor(props) {
-  super(props);
-  this.state = {
-    isLoading: true,
-    user: [],
-    item: []
-  };
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      selected: "Home",
+      user: [],
+      item: []
+    };
+  }
+  setSelected = (tab) =>{
+    this.setState({selected:tab})
+  }
 
     async  update_data_users() {
       this.setState({ isLoading: true });
@@ -136,36 +143,35 @@ constructor(props) {
   render(){
     const {user, item, isLoading} = this.state;
 
-   
-    // data = [{
-    //   "name": "Bob barker",
-    //   "userName": "bbar001",
-    //   "id": 1,
-    //   "role": "owner"
-    // },
-    // {
-    //   "name": "Bob barker",
-    //   "userName": "bbar001",
-    //   "id": 1,
-    //   "role": "owner"
-    // }
-    // ]
-    // console.log(isLoading)
-    // console.log(user);
+  
     if (isLoading){
-      return  <div className="App"> Loading... </div>
+      return  <div className="App"> 
+            <h1> Loading </h1>
+         <div>Loading... </div> 
+        </div>
     }
     else {
       return (
 
 
         <div className="App">
-          
-          <header className="App-header">
-          <Table columns={columns_user} data={user} />
-          <div> </div>
-          <Table columns={columns_inv} data={item} />
+          <TabNav tabs={['Home', 'Table', 'Functions']} selected={this.state.selected} setSelected ={this.setSelected}>
+            <Tab isSelected={this.state.selected === "Home"}>
+              <p>Some test</p>
+            </Tab>
+            <Tab isSelected={this.state.selected === "Table"}>
+              <Table columns={columns_user} data={user} />
+              <div> </div>
+              <Table columns={columns_inv} data={item} />
 
+            </Tab>
+            <Tab isSelected={this.state.selected === "Functions"}>
+              <p>testing</p>
+            </Tab>
+
+          </TabNav>
+          <header className="App-header">
+          
           </header>
         </div>
       );

@@ -55,6 +55,27 @@ class httpCalls {
         return ret;
 
     }
+    async u_own(URL_parm, pSn, pOn){
+        var sData = {
+            "ownerId":pOn
+        }
+        console.log(sData);
+        var f_url = server_url + URL_parm +"/"+ pSn ;
+        var ret = "";
+        await fetch(
+            f_url,{
+                method: "PUT",
+                mode:'cors',
+                headers:{
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Headers" : '*' ,
+                    'Access-Control-Allow-Origin' : '*'
+                },
+                body: JSON.stringify(sData)
+            }
+        )
+
+    }
 
 
 }

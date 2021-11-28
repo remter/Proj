@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import com.example.demo.error.ApiErrors;
@@ -22,8 +23,7 @@ import com.example.demo.dao.ItemDao;
 import com.example.demo.insert.ItemInput; 
 @RestController
 
-
-@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.210:3000"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://192.168.1.210:3000"}, allowedHeaders = "*")
 
 
 public class itemsController {
@@ -81,6 +81,19 @@ public class itemsController {
     ResponseEntity <?> updateItem(@RequestBody ItemInput nItem, @PathVariable int id) {
         try{
             itemService.updateItem(id, nItem);
+        return ResponseEntity.ok().build();
+        }
+        catch(ApiErrors e){
+            return  ResponseEntity.status( HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+    @PutMapping("/item/status/{parm}")
+
+    ResponseEntity <?> updateOwner(@RequestBody ItemInput nItem, @PathVariable String parm) {
+        int id = nItem.getOwnerId();
+        String sn = parm;
+        try{
+            itemService.updateOwner(sn, id);
         return ResponseEntity.ok().build();
         }
         catch(ApiErrors e){

@@ -21,6 +21,9 @@ public class ItemInput {
     ItemInput(){
 
     }
+    ItemInput(int ownerid){
+        this.ownerid = ownerid;
+    }
     ItemInput(String name, String serialNum, itemType type, String model, String maker, String description, int ownerid, int id ){
         this.name = name;
         this.serialNum = serialNum;

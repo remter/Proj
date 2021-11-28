@@ -75,6 +75,20 @@ public class ItemDao {
             throw new ApiErrors ("Please check inputs" );
         }
     }
+    public void updateOwner (String sn, int id){
+        String sql = "UPDATE inventory SET  ownerid = ? where serialNum = ?";
+        try {
+            var u =jdbcTemp.update(sql, id, sn);
+            if(u == 0){
+                throw new ApiErrors("Id not found/updated");
+            }
+        }catch (NullPointerException e){
+            throw new ApiErrors ("Some values are not assigned" );
+        }catch (DataIntegrityViolationException e){
+            throw new ApiErrors ("Please check inputs" );
+        }
+
+    }
 
 
 
